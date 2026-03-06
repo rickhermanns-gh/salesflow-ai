@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SalesFlow AI — Verkoop slimmer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy:      #0E1E3D;
+      --blue:      #204C8D;
+      --blue-mid:  #2E6BC4;
+      --blue-pale: #E8EEF7;
+      --amber:     #F59E0B;
+      --amber-lt:  #FEF3C7;
+      --green:     #10B981;
+      --cream:     #F9F7F3;
+      --white:     #FFFFFF;
+      --text:      #1A2540;
+      --muted:     #6B7280;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      background: rgba(14,30,61,0.97);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 0 40px; height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 20px; color: var(--white);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .nav-logo-dot { width: 8px; height: 8px; background: var(--amber); border-radius: 50%; }
+    .nav-links { display: flex; gap: 28px; }
+    .nav-links a { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.6); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: white; }
+    .nav-cta {
+      background: var(--amber); color: var(--navy);
+      font-size: 13px; font-weight: 700;
+      padding: 8px 20px; border-radius: 6px;
+      text-decoration: none; transition: opacity 0.2s;
+    }
+    .nav-cta:hover { opacity: 0.88; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      background: var(--navy);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 120px 40px 80px;
+      position: relative; overflow: hidden;
+    }
+
+    /* Grid pattern */
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(46,107,196,0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(46,107,196,0.08) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+    }
+
+    /* Glow */
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: 20%; left: 50%; transform: translateX(-50%);
+      width: 700px; height: 400px;
+      background: radial-gradient(ellipse, rgba(32,76,141,0.35) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-inner { position: relative; z-index: 2; text-align: center; max-width: 760px; }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.25);
+      color: var(--amber); font-size: 12px; font-weight: 600;
+      padding: 5px 14px; border-radius: 20px; margin-bottom: 28px;
+      letter-spacing: 0.5px; text-transform: uppercase;
+      opacity: 0; animation: fadeUp 0.6s 0.1s forwards;
+    }
+    .hero-badge-dot { width: 6px; height: 6px; background: var(--amber); border-radius: 50%; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(42px, 6vw, 72px);
+      color: var(--white); line-height: 1.08;
+      margin-bottom: 20px;
+      opacity: 0; animation: fadeUp 0.7s 0.25s forwards;
+    }
+    .hero h1 em { font-style: italic; color: var(--amber); }
+
+    .hero-sub {
+      font-size: 18px; font-weight: 300; color: rgba(255,255,255,0.6);
+      line-height: 1.65; max-width: 540px; margin: 0 auto 40px;
+      opacity: 0; animation: fadeUp 0.7s 0.4s forwards;
+    }
+
+    .hero-actions {
+      display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
+      opacity: 0; animation: fadeUp 0.7s 0.55s forwards;
+    }
+    .btn-hero-primary {
+      background: var(--amber); color: var(--navy);
+      font-size: 15px; font-weight: 700;
+      padding: 14px 32px; border-radius: 8px;
+      text-decoration: none; transition: all 0.2s;
+      box-shadow: 0 4px 20px rgba(245,158,11,0.3);
+    }
+    .btn-hero-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(245,158,11,0.4); }
+    .btn-hero-ghost {
+      background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.85);
+      font-size: 15px; font-weight: 500;
+      padding: 14px 32px; border-radius: 8px;
+      text-decoration: none; border: 1px solid rgba(255,255,255,0.12);
+      transition: all 0.2s;
+    }
+    .btn-hero-ghost:hover { background: rgba(255,255,255,0.13); }
+
+    /* Stats strip */
+    .hero-stats {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      display: flex; justify-content: center;
+      opacity: 0; animation: fadeUp 0.7s 0.8s forwards;
+    }
+    .hero-stat {
+      padding: 20px 48px;
+      border-right: 1px solid rgba(255,255,255,0.06);
+      text-align: center;
+    }
+    .hero-stat:last-child { border-right: none; }
+    .hero-stat-num { font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--amber); }
+    .hero-stat-lbl { font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 2px; font-weight: 500; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── SECTION BASE ── */
+    section { padding: 96px 40px; }
+    .section-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--blue-mid);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(32px, 4vw, 46px);
+      color: var(--navy); line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    .section-sub {
+      font-size: 17px; font-weight: 300; color: var(--muted);
+      line-height: 1.7; max-width: 560px;
+    }
+    .section-header { text-align: center; margin-bottom: 64px; }
+    .section-header .section-sub { margin: 0 auto; }
+
+    /* ── HOW IT WORKS ── */
+    .how { background: var(--white); }
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; max-width: 960px; margin: 0 auto; position: relative; }
+    .steps::before {
+      content: '';
+      position: absolute; top: 28px; left: calc(33.33% - 0px); right: calc(33.33% - 0px);
+      height: 2px; background: var(--blue-pale);
+    }
+    .step { padding: 0 32px; text-align: center; position: relative; }
+    .step-num {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: var(--navy); color: var(--amber);
+      font-family: 'DM Serif Display', serif; font-size: 22px;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px; position: relative; z-index: 1;
+      box-shadow: 0 0 0 6px var(--white);
+    }
+    .step h3 { font-size: 17px; font-weight: 700; color: var(--navy); margin-bottom: 10px; }
+    .step p   { font-size: 14px; color: var(--muted); line-height: 1.65; }
+
+    /* ── TOOLS GRID ── */
+    .tools { background: var(--cream); }
+    .tools-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 24px; max-width: 1000px; margin: 0 auto;
+    }
+    .tool-card {
+      background: var(--white);
+      border: 1px solid #E5E9F2;
+      border-radius: 16px;
+      padding: 32px;
+      transition: all 0.25s;
+      position: relative; overflow: hidden;
+      text-decoration: none; color: inherit;
+      display: block;
+    }
+    .tool-card::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+      background: var(--blue);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.3s;
+    }
+    .tool-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(32,76,141,0.12); border-color: var(--blue-pale); }
+    .tool-card:hover::before { transform: scaleX(1); }
+
+    .tool-icon {
+      width: 52px; height: 52px; border-radius: 12px;
+      background: var(--blue-pale);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px; margin-bottom: 20px;
+    }
+    .tool-tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 11px; font-weight: 600; letter-spacing: 0.4px;
+      padding: 3px 10px; border-radius: 20px; margin-bottom: 14px;
+    }
+    .tool-tag.live    { background: var(--green-pale, #D1FAE5); color: #065F46; }
+    .tool-tag.live::before { content: ''; display:inline-block; width:6px;height:6px;border-radius:50%;background:#10B981; }
+    .tool-tag.coming  { background: var(--amber-lt); color: #92400E; }
+
+    .tool-card h3 { font-family: 'DM Serif Display', serif; font-size: 24px; color: var(--navy); margin-bottom: 10px; }
+    .tool-card p  { font-size: 14px; color: var(--muted); line-height: 1.65; margin-bottom: 20px; }
+
+    .tool-features { list-style: none; margin-bottom: 24px; }
+    .tool-features li {
+      font-size: 13px; color: var(--text);
+      padding: 5px 0; display: flex; align-items: center; gap: 8px;
+    }
+    .tool-features li::before {
+      content: ''; display: inline-block;
+      width: 16px; height: 16px; border-radius: 50%;
+      background: var(--blue-pale);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 8l3.5 3.5L13 4.5' stroke='%23204C8D' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      flex-shrink: 0;
+    }
+
+    .tool-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 14px; font-weight: 600; color: var(--blue);
+      text-decoration: none; transition: gap 0.2s;
+    }
+    .tool-link:hover { gap: 10px; }
+
+    /* ── SIGNATURE QUOTE ── */
+    .quote-section {
+      background: var(--navy);
+      text-align: center;
+      padding: 80px 40px;
+    }
+    .quote-text {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(24px, 3.5vw, 38px);
+      color: var(--white);
+      line-height: 1.35; max-width: 700px; margin: 0 auto 20px;
+    }
+    .quote-text em { color: var(--amber); font-style: italic; }
+    .quote-author { font-size: 14px; color: rgba(255,255,255,0.4); font-weight: 500; }
+
+    /* ── CONTACT / CTA ── */
+    .cta-section { background: var(--cream); text-align: center; padding: 96px 40px; }
+    .cta-box {
+      background: var(--navy); border-radius: 20px;
+      padding: 64px 48px; max-width: 680px; margin: 0 auto;
+      position: relative; overflow: hidden;
+    }
+    .cta-box::before {
+      content: '';
+      position: absolute; top: -60px; right: -60px;
+      width: 240px; height: 240px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(245,158,11,0.15), transparent 70%);
+    }
+    .cta-box h2 { font-family: 'DM Serif Display', serif; font-size: 34px; color: var(--white); margin-bottom: 14px; }
+    .cta-box p  { font-size: 16px; color: rgba(255,255,255,0.55); line-height: 1.65; margin-bottom: 32px; max-width: 440px; margin-left: auto; margin-right: auto; }
+    .cta-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--amber); color: var(--navy);
+      font-size: 15px; font-weight: 700; padding: 15px 36px;
+      border-radius: 8px; text-decoration: none;
+      transition: all 0.2s; box-shadow: 0 4px 20px rgba(245,158,11,0.3);
+    }
+    .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(245,158,11,0.4); }
+
+    .contact-detail { margin-top: 20px; font-size: 13px; color: rgba(255,255,255,0.35); }
+    .contact-detail a { color: rgba(255,255,255,0.55); text-decoration: none; }
+    .contact-detail a:hover { color: var(--amber); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--navy);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 24px 40px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .footer-logo { font-family: 'DM Serif Display', serif; font-size: 17px; color: rgba(255,255,255,0.5); }
+    .footer-note  { font-size: 12px; color: rgba(255,255,255,0.25); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      section { padding: 64px 20px; }
+      .tools-grid { grid-template-columns: 1fr; }
+      .steps { grid-template-columns: 1fr; gap: 40px; }
+      .steps::before { display: none; }
+      .hero-stats { display: none; }
+      footer { flex-direction: column; gap: 8px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">
+      <div class="nav-logo-dot"></div>
+      SalesFlow AI
+    </div>
+    <div class="nav-links">
+      <a href="#tools">Tools</a>
+      <a href="#hoe-het-werkt">Hoe het werkt</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <a href="#tools" class="nav-cta">Bekijk de tools →</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-badge">
+        <div class="hero-badge-dot"></div>
+        SalesFlow AI Suite — vier tools, één missie
+      </div>
+      <h1>Verkoop slimmer.<br><em>Niet harder.</em></h1>
+      <p class="hero-sub">
+        Vier AI-tools die B2B accountmanagers helpen meer te halen uit elke werkdag — van lead tot deal tot LinkedIn post.
+      </p>
+      <div class="hero-actions">
+        <a href="#tools" class="btn-hero-primary">Ontdek de suite</a>
+        <a href="#contact" class="btn-hero-ghost">Plan een demo</a>
+      </div>
+    </div>
+
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num">4</div>
+        <div class="hero-stat-lbl">AI-tools</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">&lt; 5 min</div>
+        <div class="hero-stat-lbl">Per debrief</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">Top-5</div>
+        <div class="hero-stat-lbl">Leads elke dag</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">1 klik</div>
+        <div class="hero-stat-lbl">LinkedIn post</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOE HET WERKT -->
+  <section class="how" id="hoe-het-werkt">
+    <div class="section-header">
+      <div class="section-label">Werkwijze</div>
+      <h2 class="section-title">Van lead tot post<br>in minuten</h2>
+      <p class="section-sub">SalesFlow AI neemt het repetitieve werk over — zodat jij je tijd steekt in het enige wat telt: gesprekken.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Voer je data in</h3>
+        <p>Leads, klantbezoeken of pipeline-deals — jij levert de context, de AI doet de analyse.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>AI genereert inzichten</h3>
+        <p>Prioriteiten, risico's, pitches en posts — gegenereerd in seconden op basis van jouw informatie.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Jij neemt actie</h3>
+        <p>Bellen, debriefen, CRM bijwerken of posten op LinkedIn — alles klaar om direct te gebruiken.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOOLS -->
+  <section class="tools" id="tools">
+    <div class="section-header">
+      <div class="section-label">De Suite</div>
+      <h2 class="section-title">Vier tools.<br>Eén accountmanager.</h2>
+      <p class="section-sub">Elke tool lost één concreet pijnpunt op — samen vormen ze een complete AI-werkdag.</p>
+    </div>
+
+    <div class="tools-grid">
+
+      <!-- LeadFlow -->
+      <a class="tool-card" href="https://rickhermanns-gh.github.io/leadflow" target="_blank">
+        <div class="tool-icon">🎯</div>
+        <span class="tool-tag live">Live</span>
+        <h3>LeadFlow</h3>
+        <p>Jouw dagelijkse top-5 leads — geprioriteerd door AI op basis van koopsignalen, sector en context. Met kant-en-klare openingspitch per lead.</p>
+        <ul class="tool-features">
+          <li>AI-prioritering op urgentie en kans</li>
+          <li>Persoonlijke openingspitch per lead</li>
+          <li>LinkedIn-knop direct naar profiel</li>
+          <li>Push naar CRM met één klik</li>
+        </ul>
+        <span class="tool-link">Probeer LeadFlow →</span>
+      </a>
+
+      <!-- VisitFlow -->
+      <a class="tool-card" href="https://rickhermanns-gh.github.io/visitflow" target="_blank">
+        <div class="tool-icon">📋</div>
+        <span class="tool-tag live">Live</span>
+        <h3>VisitFlow</h3>
+        <p>Van klantbezoek naar professioneel debrief-rapport in minder dan 5 minuten. Spraak of tekst — AI structureert en schrijft het verslag.</p>
+        <ul class="tool-features">
+          <li>Spraakopname direct in de app</li>
+          <li>AI-samenvatting en actiepunten</li>
+          <li>Automatisch doorsturen via Make.com</li>
+          <li>CRM-klaar format</li>
+        </ul>
+        <span class="tool-link">Probeer VisitFlow →</span>
+      </a>
+
+      <!-- PipelineAI -->
+      <a class="tool-card" href="https://rickhermanns-gh.github.io/pipelineai" target="_blank">
+        <div class="tool-icon">📊</div>
+        <span class="tool-tag live">Live</span>
+        <h3>PipelineAI</h3>
+        <p>Je pipeline geanalyseerd als een sales coach. Risicoscore per deal, gecorrigeerde kansberekening en één concrete actie voor morgen.</p>
+        <ul class="tool-features">
+          <li>Risicoscore 1–10 per deal</li>
+          <li>Diagnose van wat er écht speelt</li>
+          <li>Meest waarschijnlijke bezwaar + respons</li>
+          <li>Sales coach samenvatting van de week</li>
+        </ul>
+        <span class="tool-link">Probeer PipelineAI →</span>
+      </a>
+
+      <!-- BrandPulse -->
+      <a class="tool-card" href="https://rickhermanns-gh.github.io/brandpulse" target="_blank">
+        <div class="tool-icon">📣</div>
+        <span class="tool-tag live">Live</span>
+        <h3>BrandPulse</h3>
+        <p>LinkedIn thought leadership op autopilot. Geef een onderwerp of URL — de AI schrijft 3 posts in jouw eigen stem. Klaar om te plaatsen.</p>
+        <ul class="tool-features">
+          <li>3 posttypes: inzicht, verhaal, stelling</li>
+          <li>Stijlkalibratie op jouw eigen posts</li>
+          <li>Tekenteller voor LinkedIn-limiet</li>
+          <li>Direct bewerken voor publicatie</li>
+        </ul>
+        <span class="tool-link">Probeer BrandPulse →</span>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- QUOTE -->
+  <section class="quote-section">
+    <p class="quote-text">"AI is geen IT-project.<br><em>Het is een leiderschapsvraagstuk.</em>"</p>
+    <p class="quote-author">— Rick Hermanns, SalesFlow AI</p>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section" id="contact">
+    <div class="cta-box">
+      <h2>Klaar om te starten?</h2>
+      <p>SalesFlow AI is beschikbaar als pilot voor B2B salesteams. Neem contact op voor een persoonlijke demo van 20 minuten.</p>
+      <a href="mailto:rickhermanns@gmail.com" class="cta-btn">
+        📩 Plan een demo
+      </a>
+      <p class="contact-detail">
+        Of mail direct: <a href="mailto:rickhermanns@gmail.com">rickhermanns@gmail.com</a><br>
+        <a href="https://linkedin.com/in/rick-hermanns" target="_blank">LinkedIn — Rick Hermanns</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">SalesFlow AI</div>
+    <div class="footer-note">© 2026 Rick Hermanns · Utrecht, NL · Onderdeel van de SalesFlow AI Suite</div>
+  </footer>
+
+</body>
+</html>
