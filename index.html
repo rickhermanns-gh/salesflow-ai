@@ -226,10 +226,9 @@
     .tool-card:hover::before { transform: scaleX(1); }
 
     .tool-icon {
-      width: 52px; height: 52px; border-radius: 12px;
-      background: var(--blue-pale);
+      width: 56px; height: 56px; border-radius: 14px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 24px; margin-bottom: 20px;
+      margin-bottom: 20px; flex-shrink: 0;
     }
     .tool-tag {
       display: inline-flex; align-items: center; gap: 6px;
@@ -420,7 +419,18 @@
 
       <!-- LeadFlow -->
       <a class="tool-card" href="https://rickhermanns-gh.github.io/leadflow" target="_blank">
-        <div class="tool-icon">🎯</div>
+        <!-- LeadFlow icon: contact/person with priority lightning bolt -->
+        <div class="tool-icon">
+          <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="56" height="56" rx="14" fill="#0E1E3D"/>
+            <!-- Person head -->
+            <circle cx="24" cy="20" r="6" stroke="#2E6BC4" stroke-width="1.5"/>
+            <!-- Person shoulders -->
+            <path d="M12 40c0-6.627 5.373-12 12-12h1" stroke="#2E6BC4" stroke-width="1.5" stroke-linecap="round"/>
+            <!-- Lightning bolt amber -->
+            <path d="M36 13l-6 10h5l-5 10 11-13h-6l6-7z" fill="#F59E0B"/>
+          </svg>
+        </div>
         <span class="tool-tag live">Live</span>
         <h3>LeadFlow</h3>
         <p>Jouw dagelijkse top-5 leads — geprioriteerd door AI op basis van koopsignalen, sector en context. Met kant-en-klare openingspitch per lead.</p>
@@ -435,7 +445,23 @@
 
       <!-- VisitFlow -->
       <a class="tool-card" href="https://rickhermanns-gh.github.io/visitflow" target="_blank">
-        <div class="tool-icon">📋</div>
+        <!-- VisitFlow icon: document with checkmarks -->
+        <div class="tool-icon">
+          <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="56" height="56" rx="14" fill="#0E1E3D"/>
+            <!-- Document -->
+            <rect x="15" y="12" width="22" height="28" rx="3" stroke="#2E6BC4" stroke-width="1.5"/>
+            <path d="M15 18h22" stroke="#2E6BC4" stroke-width="1" opacity="0.4"/>
+            <!-- Check lines -->
+            <path d="M20 24l2.5 2.5L27 22" stroke="#F59E0B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M20 31l2.5 2.5L27 29" stroke="#F59E0B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- Mic circle -->
+            <circle cx="36" cy="38" r="8" fill="#F59E0B"/>
+            <rect x="33.5" y="33.5" width="5" height="7" rx="2.5" fill="#0E1E3D"/>
+            <path d="M31.5 39.5c0 2.5 2 4.5 4.5 4.5s4.5-2 4.5-4.5" stroke="#0E1E3D" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M36 44v2" stroke="#0E1E3D" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
         <span class="tool-tag live">Live</span>
         <h3>VisitFlow</h3>
         <p>Van klantbezoek naar professioneel debrief-rapport in minder dan 5 minuten. Spraak of tekst — AI structureert en schrijft het verslag.</p>
@@ -450,7 +476,19 @@
 
       <!-- PipelineAI -->
       <a class="tool-card" href="https://rickhermanns-gh.github.io/pipelineai" target="_blank">
-        <div class="tool-icon">📊</div>
+        <!-- PipelineAI icon: funnel with upward trend -->
+        <div class="tool-icon">
+          <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="56" height="56" rx="14" fill="#0E1E3D"/>
+            <!-- Funnel -->
+            <path d="M13 15h30l-11 13v12l-8-4V28L13 15z" stroke="#2E6BC4" stroke-width="1.5" stroke-linejoin="round"/>
+            <!-- Trend line inside funnel area -->
+            <path d="M18 20h6M18 24h4" stroke="#2E6BC4" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+            <!-- Upward arrow bottom right -->
+            <circle cx="40" cy="40" r="8" fill="#F59E0B"/>
+            <path d="M40 44v-8M37 39l3-3 3 3" stroke="#0E1E3D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
         <span class="tool-tag live">Live</span>
         <h3>PipelineAI</h3>
         <p>Je pipeline geanalyseerd als een sales coach. Risicoscore per deal, gecorrigeerde kansberekening en één concrete actie voor morgen.</p>
@@ -465,7 +503,24 @@
 
       <!-- BrandPulse -->
       <a class="tool-card" href="https://rickhermanns-gh.github.io/brandpulse" target="_blank">
-        <div class="tool-icon">📣</div>
+        <!-- BrandPulse icon: LinkedIn post with signal waves -->
+        <div class="tool-icon">
+          <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="56" height="56" rx="14" fill="#0E1E3D"/>
+            <!-- Post/card -->
+            <rect x="12" y="16" width="24" height="20" rx="3" stroke="#2E6BC4" stroke-width="1.5"/>
+            <path d="M17 23h14M17 27h10" stroke="#2E6BC4" stroke-width="1.2" stroke-linecap="round" opacity="0.6"/>
+            <!-- Avatar dot -->
+            <circle cx="17" cy="20" r="1.5" fill="#2E6BC4" opacity="0.6"/>
+            <!-- Signal waves from top-right -->
+            <path d="M38 18c2.5 2.5 2.5 6.5 0 9" stroke="#F59E0B" stroke-width="1.8" stroke-linecap="round"/>
+            <path d="M41 15c4 4 4 10.5 0 14.5" stroke="#F59E0B" stroke-width="1.8" stroke-linecap="round" opacity="0.5"/>
+            <!-- Pulse dot -->
+            <circle cx="35.5" cy="22.5" r="2.5" fill="#F59E0B"/>
+            <!-- Hashtag bottom right -->
+            <path d="M18 38h20M18 42h20M26 35v10M32 35v10" stroke="#2E6BC4" stroke-width="1.2" stroke-linecap="round" opacity="0.35"/>
+          </svg>
+        </div>
         <span class="tool-tag live">Live</span>
         <h3>BrandPulse</h3>
         <p>LinkedIn thought leadership op autopilot. Geef een onderwerp of URL — de AI schrijft 3 posts in jouw eigen stem. Klaar om te plaatsen.</p>
